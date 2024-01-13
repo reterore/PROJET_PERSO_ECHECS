@@ -10,6 +10,8 @@
 
 
 bool verifier_piece(int joueur, elem** plateau, int colonne, int ligne);
-bool verifier_placement(int joueur, elem** plateau, int colonne, int ligne);
+bool verifier_placement(elem** plateau, int colonne, int ligne);
+bool verifier_deplacement(elem** plateau);
+
 
 #endif //JEU_ECHECS_VERIFICATION_H

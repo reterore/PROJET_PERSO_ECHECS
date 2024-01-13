@@ -26,27 +26,29 @@ void jouer_tours(int joueur, elem** plateau) {
     do {
         // Demander à l'utilisateur de choisir une pièce tant que la pièce n'est pas valide
         do {
-            printf("Joueur %d, quelle piece souhaitez-vous deplacer?\n", joueur);
-            printf("Entrez la colonne (A a H) : ");
-            scanf(" %c", &colonne);
-            colonne = toupper(colonne);
-        } while (colonne < 'A' || colonne > 'H');
+            do {
+                printf("Joueur %d, quelle piece souhaitez-vous deplacer?\n", joueur);
+                printf("Entrez la colonne (A a H) : ");
+                scanf(" %c", &colonne);
+                colonne = toupper(colonne);
+            } while (colonne < 'A' || colonne > 'H');
 
-        // Convertir la colonne en valeur entière associée
-        num_colonne1 = colonne - 'A';
+            // Convertir la colonne en valeur entière associée
+            num_colonne1 = colonne - 'A';
 
-        // demander la ligne et la convertir
-        do {
-            printf("Entrez la ligne (1 a 8) : ");
-            scanf("%d", &ligne);
-            printf("\n");
-        } while (ligne < 1 || ligne > 8);
-        num_ligne1 = ligne - 1;
+            // demander la ligne et la convertir
+            do {
+                printf("Entrez la ligne (1 a 8) : ");
+                scanf("%d", &ligne);
+                printf("\n");
+            } while (ligne < 1 || ligne > 8);
+            num_ligne1 = ligne - 1;
 
-    } while (!verifier_piece(joueur, plateau, num_colonne1, num_ligne1));
+        } while (!verifier_piece(joueur, plateau, num_colonne1, num_ligne1));
 
-    piece = plateau[num_ligne1][num_colonne1].piece;
-    definir_deplacement(joueur, plateau, num_colonne1, num_ligne1);
+        piece = plateau[num_ligne1][num_colonne1].piece;
+        definir_deplacement(joueur, plateau, num_colonne1, num_ligne1);
+    }while(!verifier_deplacement(plateau));
 
     printf("Voici vos deplacements possibles: \n\n");
     afficher_plateau(plateau);
@@ -66,7 +68,7 @@ void jouer_tours(int joueur, elem** plateau) {
 
         num_ligne2 = ligne - 1;
 
-    } while (!verifier_placement(joueur, plateau, num_colonne2, num_ligne2));
+    } while (!verifier_placement(plateau, num_colonne2, num_ligne2));
 
     reinitialiser_deplacement(plateau);
     enlever_piece(plateau, num_colonne1, num_ligne1);

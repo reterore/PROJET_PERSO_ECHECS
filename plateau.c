@@ -68,12 +68,206 @@ void definir_deplacement(int joueur, elem** plateau, int colonne, int ligne){
             if(plateau[ligne + sens][colonne].num_joueur == 0){
                 plateau[ligne + sens][colonne].deplacement = '-';
             }
-            if((ligne == 6 && joueur == 1) || (ligne == 1 && joueur == 2)){
+            if((ligne == 6 && joueur == 1 && plateau[ligne + sens][colonne].num_joueur == 0) || (ligne == 1 && joueur == 2 && plateau[ligne + sens][colonne].num_joueur == 0)){
                 plateau[ligne + 2 * sens][colonne].deplacement = '-';
             }
             break;
         case '!':
-            printf("vous avez choisis de jouer une tour!\n");
+            printf("vous avez choisi de jouer une tour!\n");
+            for (int i = ligne + 1; i < 8; i++) {
+                if (plateau[i][colonne].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][colonne].deplacement = '-';
+                if (plateau[i][colonne].num_joueur != 0) {
+                    break; // Stop if opponent's piece is encountered
+                }
+            }
+            for (int i = ligne - 1; i >= 0; i--) {
+                if (plateau[i][colonne].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][colonne].deplacement = '-';
+                if (plateau[i][colonne].num_joueur != 0) {
+                    break;
+                }
+            }
+
+            // Check horizontal movements
+            for (int j = colonne + 1; j < 8; j++) {
+                if (plateau[ligne][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[ligne][j].deplacement = '-';
+                if (plateau[ligne][j].num_joueur != 0) {
+                    break;
+                }
+            }
+            for (int j = colonne - 1; j >= 0; j--) {
+                if (plateau[ligne][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[ligne][j].deplacement = '-';
+                if (plateau[ligne][j].num_joueur != 0) {
+                    break;
+                }
+            }
+            break;
+        case '~':
+            printf("vous avez choisi de jouer un fou!\n");
+
+            // Clear previous possible movements
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    plateau[i][j].deplacement = ' ';
+                }
+            }
+
+            // Check diagonal movements (top-left to bottom-right)
+            for (int i = ligne + 1, j = colonne + 1; i < 8 && j < 8; i++, j++) {
+                if (plateau[i][j].num_joueur == joueur) {
+                    break; // Stop if same player's piece is encountered
+                }
+                plateau[i][j].deplacement = '-';
+                if (plateau[i][j].num_joueur != 0) {
+                    break; // Stop if opponent's piece is encountered
+                }
+            }
+            for (int i = ligne - 1, j = colonne - 1; i >= 0 && j >= 0; i--, j--) {
+                if (plateau[i][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][j].deplacement = '-';
+                if (plateau[i][j].num_joueur != 0) {
+                    break;
+                }
+            }
+
+            // Check diagonal movements (top-right to bottom-left)
+            for (int i = ligne + 1, j = colonne - 1; i < 8 && j >= 0; i++, j--) {
+                if (plateau[i][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][j].deplacement = '-';
+                if (plateau[i][j].num_joueur != 0) {
+                    break;
+                }
+            }
+            for (int i = ligne - 1, j = colonne + 1; i >= 0 && j < 8; i--, j++) {
+                if (plateau[i][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][j].deplacement = '-';
+                if (plateau[i][j].num_joueur != 0) {
+                    break;
+                }
+            }
+            break;
+        case '^':
+            printf("vous avez choisis de jouer un cavalier!\n");
+            int deplacement_cavalier[8][2] = {
+                    {2, 1}, {1, 2}, {-1, 2}, {-2, 1},
+                    {-2, -1}, {-1, -2}, {1, -2}, {2, -1}
+            };
+            // vérifier les deplacement possibles
+            for (int i = 0; i < 8; i++) {
+                int newLigne = ligne + deplacement_cavalier[i][0];
+                int newColonne = colonne + deplacement_cavalier[i][1];
+
+                // regarder si la position est dans sur le plateau
+                if (newLigne >= 0 && newLigne < 8 && newColonne >= 0 && newColonne < 8 && plateau[newLigne][newColonne].num_joueur != joueur) {
+                    plateau[newLigne][newColonne].deplacement = '-';
+                }
+            }
+            break;
+        case '&':
+            printf("vous avez choisi de jouer une reine!\n");
+            for (int i = ligne + 1; i < 8; i++) {
+                if (plateau[i][colonne].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][colonne].deplacement = '-';
+                if (plateau[i][colonne].num_joueur != 0) {
+                    break;
+                }
+            }
+            for (int i = ligne - 1; i >= 0; i--) {
+                if (plateau[i][colonne].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][colonne].deplacement = '-';
+                if (plateau[i][colonne].num_joueur != 0) {
+                    break;
+                }
+            }
+            for (int j = colonne + 1; j < 8; j++) {
+                if (plateau[ligne][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[ligne][j].deplacement = '-';
+                if (plateau[ligne][j].num_joueur != 0) {
+                    break;
+                }
+            }
+            for (int j = colonne - 1; j >= 0; j--) {
+                if (plateau[ligne][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[ligne][j].deplacement = '-';
+                if (plateau[ligne][j].num_joueur != 0) {
+                    break;
+                }
+            }
+            for (int i = ligne + 1, j = colonne + 1; i < 8 && j < 8; i++, j++) {
+                if (plateau[i][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][j].deplacement = '-';
+                if (plateau[i][j].num_joueur != 0) {
+                    break;
+                }
+            }
+            for (int i = ligne - 1, j = colonne - 1; i >= 0 && j >= 0; i--, j--) {
+                if (plateau[i][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][j].deplacement = '-';
+                if (plateau[i][j].num_joueur != 0) {
+                    break;
+                }
+            }
+            for (int i = ligne + 1, j = colonne - 1; i < 8 && j >= 0; i++, j--) {
+                if (plateau[i][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][j].deplacement = '-';
+                if (plateau[i][j].num_joueur != 0) {
+                    break;
+                }
+            }
+            for (int i = ligne - 1, j = colonne + 1; i >= 0 && j < 8; i--, j++) {
+                if (plateau[i][j].num_joueur == joueur) {
+                    break;
+                }
+                plateau[i][j].deplacement = '-';
+                if (plateau[i][j].num_joueur != 0) {
+                    break;
+                }
+            }
+            break;
+        case '#':
+            printf("vous avez choisi de jouer le roi!\n");
+            int directions[8][2] = {
+                    {-1, 0}, {-1, 1}, {0, 1}, {1, 1},
+                    {1, 0}, {1, -1}, {0, -1}, {-1, -1}
+            };
+            for (int k = 0; k < 8; k++) {
+                int newLigne = ligne + directions[k][0];
+                int newColonne = colonne + directions[k][1];
+                if (newLigne >= 0 && newLigne < 8 && newColonne >= 0 && newColonne < 8 && plateau[newLigne][newColonne].num_joueur != joueur) {
+                    plateau[newLigne][newColonne].deplacement = '-';
+                }
+            }
             break;
         default:
             printf("piece inconnue!\n");

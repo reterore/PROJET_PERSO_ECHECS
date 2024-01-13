@@ -21,7 +21,7 @@ bool verifier_piece(int joueur, elem** plateau, int colonne, int ligne) {
     return true;
 }
 
-bool verifier_placement(int joueur, elem** plateau, int colonne, int ligne) {
+bool verifier_placement(elem** plateau, int colonne, int ligne) {
     // Vérifier que les indices de ligne et de colonne sont valides
     if (colonne < 0 || colonne >= 8 || ligne < 0 || ligne >= 8) {
         printf("Indices de ligne ou de colonne invalides!\n\n");
@@ -38,4 +38,16 @@ bool verifier_placement(int joueur, elem** plateau, int colonne, int ligne) {
         printf("Vous ne pouvez pas poser cette piece ici!\n\n");
         return false;
     }
+}
+
+bool verifier_deplacement(elem** plateau){
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            if(plateau[i][j].deplacement == '-'){
+                return true;
+            }
+        }
+    }
+    printf("aucun deplacement possible pour cette piece!\n");
+    return false;
 }
