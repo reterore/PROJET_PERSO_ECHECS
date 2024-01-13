@@ -6,9 +6,10 @@
 #define JEU_ECHECS_VERIFICATION_H
 
 #include "plateau.h"
-#include <stdbool.h>
-#include <stdio.h>
+#include "affichage.h"
+
 
 bool verifier_piece(int joueur, elem** plateau, int colonne, int ligne);
+bool verifier_placement(int joueur, elem** plateau, int colonne, int ligne);
 
 #endif //JEU_ECHECS_VERIFICATION_H

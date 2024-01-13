@@ -3,9 +3,14 @@
 #ifndef PLATEAU_H
 #define PLATEAU_H
 
-typedef struct element {
+#include <stdio.h>
+#include <stdbool.h>
+
+
+typedef struct elem {
     char piece;
     int num_joueur;
+    char deplacement;
 } elem;
 
 enum Colonne {
@@ -20,5 +25,10 @@ enum Colonne {
 };
 
 void initialiser_plateau(elem** plateau);
+void reinitialiser_deplacement(elem** plateau);
+void definir_deplacement(int joueur, elem** plateau, int colonne, int ligne);
+void enlever_piece(elem** plateau, int colonne, int ligne);
+void placer_piece(int joueur, elem** plateau, int colonne, int ligne, char piece);
+
 
 #endif // PLATEAU_H

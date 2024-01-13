@@ -2,6 +2,7 @@
 //
 
 #include "plateau.h"
+#include "affichage.h"
 
 void initialiser_plateau(elem** plateau) {
     // Initialiser la base du plateau
@@ -40,4 +41,52 @@ void initialiser_plateau(elem** plateau) {
     plateau[7][6].piece = '^'; // Utilisation du caractère '+'
     plateau[7][7].piece = '!'; // Utilisation du caractère '#'
 
+}
+
+void reinitialiser_deplacement(elem** plateau){
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            plateau[i][j].deplacement = ' ';
+        }
+    }
+}
+
+void definir_deplacement(int joueur, elem** plateau, int colonne, int ligne){
+    char piece = plateau[ligne][colonne].piece;
+    int sens = (joueur == 1) ? -1 : 1;
+    switch (piece) {
+        case '*':
+            printf("vous avez choisis de jouer un pion!\n");
+            if(plateau[ligne + sens][colonne + sens].num_joueur != joueur && plateau[ligne + sens][colonne + sens].num_joueur != 0
+                    ){
+                plateau[ligne + sens][colonne + sens].deplacement = '-';
+            }
+            if(plateau[ligne - sens][colonne + sens].num_joueur != joueur && plateau[ligne - sens][colonne + sens].num_joueur != 0
+                    ){
+                plateau[ligne - sens][colonne + sens].deplacement = '-';
+            }
+            if(plateau[ligne + sens][colonne].num_joueur == 0){
+                plateau[ligne + sens][colonne].deplacement = '-';
+            }
+            if((ligne == 6 && joueur == 1) || (ligne == 1 && joueur == 2)){
+                plateau[ligne + 2 * sens][colonne].deplacement = '-';
+            }
+            break;
+        case '!':
+            printf("vous avez choisis de jouer une tour!\n");
+            break;
+        default:
+            printf("piece inconnue!\n");
+    }
+}
+
+void enlever_piece(elem** plateau, int colonne, int ligne){
+    plateau[ligne][colonne].piece = ' ';
+    plateau[ligne][colonne].deplacement = ' ';
+    plateau[ligne][colonne].num_joueur = 0;
+}
+
+void placer_piece(int joueur, elem** plateau, int colonne, int ligne, char piece) {
+    plateau[ligne][colonne].piece = piece;
+    plateau[ligne][colonne].num_joueur = joueur;
 }

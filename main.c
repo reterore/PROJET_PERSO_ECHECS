@@ -18,7 +18,7 @@ int main() {
 
     // Appel de la fonction pour initialiser le plateau
     initialiser_plateau(plateau);
-
+    reinitialiser_deplacement(plateau);
     // Choix du mode de jeu
     char choix;
     do {

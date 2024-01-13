@@ -7,6 +7,8 @@
 
 #include "plateau.h"
 #include "verification.h"
+#include "affichage.h"
+
 
 void partie_pvp(elem** plateau);
 void jouer_tours(int joueur, elem** plateau);
