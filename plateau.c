@@ -2,7 +2,9 @@
 //
 
 #include "plateau.h"
+
 #include "affichage.h"
+#include <ctype.h>
 
 void initialiser_plateau(elem** plateau) {
     // Initialiser la base du plateau
@@ -283,4 +285,82 @@ void enlever_piece(elem** plateau, int colonne, int ligne){
 void placer_piece(int joueur, elem** plateau, int colonne, int ligne, char piece) {
     plateau[ligne][colonne].piece = piece;
     plateau[ligne][colonne].num_joueur = joueur;
+}
+
+void promotion(int joueur, elem** plateau) {
+    int reine = 0, fou = 0, cavalier = 0, tour = 0;
+    char choix;
+    bool test;
+
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            if (plateau[i][j].num_joueur == joueur) {
+                switch (plateau[i][j].piece) {
+                    case '!':
+                        tour++;
+                        break;
+                    case '~':
+                        fou++;
+                        break;
+                    case '&':
+                        reine++;
+                        break;
+                    case '^':
+                        cavalier++;
+                        break;
+                }
+            }
+        }
+    }
+
+    if (reine < 1 || fou < 2 || cavalier < 2 || tour < 2) {
+        do {
+            printf("En quelle pièce voulez-vous changer votre pion?\nR: Reine - F: Fou - T: Tour - C: Cavalier\nJe choisis: ");
+            scanf(" %c", &choix);
+            choix = toupper(choix);
+
+            switch (choix) {
+                case 'R':
+                    if (reine < 1) {
+                        reine++;
+                        test = true;
+                    } else {
+                        test = false;
+                        printf("Vous avez déjà le maximum de reines possible!\n");
+                    }
+                    break;
+                case 'F':
+                    if (fou < 2) {
+                        fou++;
+                        test = true;
+                    } else {
+                        test = false;
+                        printf("Vous avez déjà le maximum de fous possible!\n");
+                    }
+                    break;
+                case 'T':
+                    if (tour < 2) {
+                        tour++;
+                        test = true;
+                    } else {
+                        test = false;
+                        printf("Vous avez déjà le maximum de tours possible!\n");
+                    }
+                    break;
+                case 'C':
+                    if (cavalier < 2) {
+                        cavalier++;
+                        test = true;
+                    } else {
+                        test = false;
+                        printf("Vous avez déjà le maximum de cavaliers possible!\n");
+                    }
+                    break;
+                default:
+                    printf("Erreur!\n");
+                    test = false;
+                    break;
+            }
+        } while (!test);
+    }
 }

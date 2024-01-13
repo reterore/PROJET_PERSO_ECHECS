@@ -51,3 +51,13 @@ bool verifier_deplacement(elem** plateau){
     printf("aucun deplacement possible pour cette piece!\n");
     return false;
 }
+
+void verifier_promotion(int joueur, elem** plateau) {
+    int lignePromotion = (joueur == 1) ? 0 : 7;
+
+    for (int i = 0; i < 8; ++i) {
+        if (plateau[lignePromotion][i].piece == '*' && plateau[lignePromotion][i].num_joueur == joueur) {
+            promotion(joueur, plateau);
+        }
+    }
+}

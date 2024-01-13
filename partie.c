@@ -73,4 +73,5 @@ void jouer_tours(int joueur, elem** plateau) {
     reinitialiser_deplacement(plateau);
     enlever_piece(plateau, num_colonne1, num_ligne1);
     placer_piece(joueur, plateau, num_colonne2, num_ligne2, piece);
+    verifier_promotion(joueur, plateau);
 }

@@ -7,6 +7,7 @@
 #include <stdbool.h>
 
 
+
 typedef struct elem {
     char piece;
     int num_joueur;
@@ -29,6 +30,7 @@ void reinitialiser_deplacement(elem** plateau);
 void definir_deplacement(int joueur, elem** plateau, int colonne, int ligne);
 void enlever_piece(elem** plateau, int colonne, int ligne);
 void placer_piece(int joueur, elem** plateau, int colonne, int ligne, char piece);
+void promotion(int joueur, elem** plateau);
 
 
 #endif // PLATEAU_H
