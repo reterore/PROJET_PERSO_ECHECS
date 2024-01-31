@@ -2,9 +2,13 @@
 //
 
 #include "affichage.h"
+#include "stdio.h"
+#include "ctype.h"
+#include <stdlib.h>
+
 
 void afficher_plateau(elem** plateau) {
-    printf(" ") ;
+    printf("\n ");
     for (int i = 0; i < 8; ++i) {
         printf("    %c ", 'A' + i);
     }
@@ -33,3 +37,27 @@ void afficher_plateau(elem** plateau) {
     }
 }
 
+void effacer_ecran() {
+    printf("\e[1;1H\e[2J");
+}
+
+void afficher_pieces_joueur(joueur* j){
+    printf("\npieces du joueur %s:\n", j->prenom);
+    printf("pion : %d\ntour : %d\ncavalier : %d\nfou : %d\nreine: %d\n ", j->pion, j->tour, j->cavalier, j->fou, j->reine);
+}
+
+
+void reinitialise_check_msg(elem** board){
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            if(board[i][j].deplacement == '?')
+                board[i][j].deplacement = ' ';
+        }
+    }
+}
+
+void reset_screen(){
+    for (int i = 0; i < 20; ++i) {
+        printf("\n");
+    }
+}

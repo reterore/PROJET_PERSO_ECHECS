@@ -1,24 +1,64 @@
-
-#include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>  // Utiliser #include <stdlib.h> pour malloc et free
 #include "affichage.h"
 #include "plateau.h"
 #include "partie.h"
 
-#define pion 1
-
 int main() {
-    // Déclaration d'un tableau de pointeurs vers la structure elem
-    elem** plateau = (elem**)malloc(8 * sizeof(elem*));
+    joueur joueur1 = {
+            .prenom = "lucas",
+            .numero = 1,
+            .pion = 8,
+            .cavalier = 2,
+            .tour = 2,
+            .fou = 2,
+            .reine = 1,
+            .roi = 1
+    };
+
+    joueur joueur2 = {
+            .prenom = "christophe",
+            .numero = 2,
+            .pion = 8,
+            .cavalier = 2,
+            .tour = 2,
+            .fou = 2,
+            .reine = 1,
+            .roi = 1
+    };
+
+    joueur* pj1 = &joueur1;
+    joueur* pj2 = &joueur2;
 
     // Allocation de mémoire pour chaque ligne
-    for (int i = 0; i < 8; ++i) {
-        plateau[i] = (elem*)malloc(8 * sizeof(elem));
+    elem** plateau = (elem**)malloc(8 * sizeof(elem*));
+    if (!plateau) {
+        // Gestion de l'échec d'allocation
+        fprintf(stderr, "Erreur d'allocation de mémoire pour plateau.\n");
+        exit(EXIT_FAILURE);
     }
 
-    // Appel de la fonction pour initialiser le plateau
-    initialiser_plateau(plateau);
-    reinitialiser_deplacement(plateau);
+    // Allocation de mémoire pour chaque colonne
+    for (int i = 0; i < 8; ++i) {
+        plateau[i] = (elem*)malloc(8 * sizeof(elem));
+        if (!plateau[i]) {
+            // Gestion de l'échec d'allocation
+            fprintf(stderr, "Erreur d'allocation de mémoire pour plateau[%d].\n", i);
+
+            // Libération de la mémoire allouée précédemment
+            for (int j = 0; j < i; ++j) {
+                free(plateau[j]);
+            }
+            free(plateau);
+
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    partie partie_echec = {
+            .plateau = plateau, .joueur1 = pj1, .joueur2 = pj2
+    };
+
     // Choix du mode de jeu
     char choix;
     do {
@@ -34,7 +74,8 @@ int main() {
                 break;
             case '1':
                 printf("Vous lancez une partie en 1V1!\n\n");
-                partie_pvp(plateau);
+                initialiser_plateau(partie_echec.plateau);
+                game(partie_echec, 1);
                 break;
             case '2':
                 printf("Vous lancez une partie contre le bot!\n");

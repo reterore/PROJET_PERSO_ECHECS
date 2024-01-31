@@ -5,13 +5,37 @@
 #ifndef JEU_ECHECS_PARTIE_H
 #define JEU_ECHECS_PARTIE_H
 
-#include "plateau.h"
-#include "verification.h"
-#include "affichage.h"
+#include "stdbool.h"
+
+typedef struct {
+    char* nom;
+    char* prenom;
+    int numero;
+    int pion;
+    int roi;
+    int reine;
+    int cavalier;
+    int tour;
+    int fou;
+}joueur;
+
+typedef struct elem {
+    char piece;
+    int num_joueur;
+    char deplacement;
+} elem;
+
+typedef struct {
+    elem ** plateau;
+    joueur* joueur1;
+    joueur* joueur2;
+}partie;
 
 
-void partie_pvp(elem** plateau);
-void jouer_tours(int joueur, elem** plateau);
+void game(partie game, int mode);
+joueur player_turn(partie partie, int tour, bool* checkmate);
+void vider_buffer();
+joueur bot_turn(partie game, bool* checkmate);
 
 
 #endif //JEU_ECHECS_PARTIE_H
